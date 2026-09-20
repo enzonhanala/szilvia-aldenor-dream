@@ -1,24 +1,371 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  CalendarDays,
+  Check,
+  Clock3,
+  Copy,
+  Heart,
+  MapPin,
+  Music2,
+  Pause,
+  Phone,
+  X,
+} from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import heroImage from "@/assets/szilvia-aldenor-hero.jpg";
+import handsImage from "@/assets/szilvia-aldenor-hands.jpg";
+import gardenImage from "@/assets/szilvia-aldenor-garden.jpg";
+import portraitImage from "@/assets/szilvia-aldenor-portrait.jpg";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Toaster } from "@/components/ui/sonner";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Szilvia & Aldenor — 24 de outubro de 2026" },
+      {
+        name: "description",
+        content: "Convite de casamento de Szilvia & Aldenor no Hotel Polana, Maputo.",
+      },
+      { property: "og:title", content: "Szilvia & Aldenor — O nosso casamento" },
+      {
+        property: "og:description",
+        content: "Celebre connosco no dia 24 de outubro de 2026, no Hotel Polana.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: WeddingInvitation,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const targetDate = new Date("2026-10-24T15:00:00+02:00").getTime();
+
+function useCountdown() {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const difference = Math.max(0, targetDate - now);
+  return {
+    complete: difference === 0,
+    days: Math.floor(difference / 86_400_000),
+    hours: Math.floor((difference / 3_600_000) % 24),
+    minutes: Math.floor((difference / 60_000) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+  };
+}
+
+function SectionTitle({ eyebrow, children }: { eyebrow?: string; children: React.ReactNode }) {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="mb-10 text-center md:mb-14">
+      {eyebrow && <p className="mb-3 text-xs font-semibold uppercase tracking-[0.32em] text-gold">{eyebrow}</p>}
+      <h2 className="font-display text-4xl font-normal text-chocolate md:text-6xl">{children}</h2>
+      <span className="mx-auto mt-5 block h-px w-16 bg-gold" aria-hidden="true" />
     </div>
   );
+}
+
+function EnvelopeIntro({ onOpen }: { onOpen: () => void }) {
+  const [opening, setOpening] = useState(false);
+  const open = () => {
+    if (opening) return;
+    setOpening(true);
+    window.setTimeout(onOpen, 1750);
+  };
+  return (
+    <div className={`envelope-screen ${opening ? "is-opening" : ""}`}>
+      <div className="gold-dust" aria-hidden="true" />
+      <button className="envelope-action" type="button" onClick={open} aria-label="Abrir convite de Szilvia e Aldenor">
+        <div className="envelope-wrap" aria-hidden="true">
+          <div className="invitation-card">
+            <span>S & A</span>
+            <small>24 · 10 · 2026</small>
+          </div>
+          <div className="envelope-back" />
+          <div className="envelope-front">
+            <p className="font-display">Szilvia <em>&</em> Aldenor</p>
+            <span>Você está convidado</span>
+          </div>
+          <div className="envelope-flap" />
+          <div className="wax-seal"><span>S&A</span></div>
+        </div>
+        <span className="open-hint">Toque para abrir</span>
+      </button>
+    </div>
+  );
+}
+
+function MusicButton() {
+  const [playing, setPlaying] = useState(false);
+  const contextRef = useRef<AudioContext | null>(null);
+  const timerRef = useRef<number | null>(null);
+  const stepRef = useRef(0);
+
+  const stop = () => {
+    if (timerRef.current !== null) window.clearInterval(timerRef.current);
+    timerRef.current = null;
+    contextRef.current?.close();
+    contextRef.current = null;
+    setPlaying(false);
+  };
+
+  const playNote = (ctx: AudioContext, frequency: number) => {
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.value = frequency;
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.055, ctx.currentTime + 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.25);
+    oscillator.connect(gain).connect(ctx.destination);
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + 1.3);
+  };
+
+  const toggle = () => {
+    if (playing) return stop();
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    contextRef.current = ctx;
+    const melody = [261.63, 329.63, 392, 329.63, 293.66, 349.23, 440, 349.23];
+    playNote(ctx, melody[0] ?? 261.63);
+    timerRef.current = window.setInterval(() => {
+      stepRef.current = (stepRef.current + 1) % melody.length;
+      if (contextRef.current) playNote(contextRef.current, melody[stepRef.current] ?? 261.63);
+    }, 1100);
+    setPlaying(true);
+  };
+
+  useEffect(() => () => stop(), []);
+
+  return (
+    <Button onClick={toggle} className={`music-button ${playing ? "is-playing" : ""}`} aria-label={playing ? "Pausar música" : "Tocar música"}>
+      {playing ? <Pause /> : <Music2 />}
+      <span>{playing ? "Pausar" : "Música"}</span>
+    </Button>
+  );
+}
+
+function WeddingInvitation() {
+  const [opened, setOpened] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
+  const countdown = useCountdown();
+  const photos = [
+    { src: portraitImage, alt: "Szilvia e Aldenor num retrato romântico", className: "gallery-tall" },
+    { src: gardenImage, alt: "Szilvia e Aldenor caminhando no jardim", className: "gallery-wide" },
+    { src: handsImage, alt: "As mãos dos noivos e as alianças", className: "gallery-tall" },
+    { src: heroImage, alt: "Szilvia e Aldenor ao pôr do sol", className: "gallery-wide" },
+  ];
+
+  const submitRsvp = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setConfirmed(true);
+    toast.success("Presença confirmada", { description: "Obrigado por celebrar este dia connosco." });
+  };
+
+  const copyPhone = async () => {
+    await navigator.clipboard.writeText("870532960");
+    toast.success("Número copiado");
+  };
+
+  if (!opened) return <EnvelopeIntro onOpen={() => setOpened(true)} />;
+
+  return (
+    <main className="invite-page animate-invite">
+      <section className="hero" aria-label="Szilvia e Aldenor">
+        <img src={heroImage} alt="Szilvia e Aldenor no Hotel Polana ao pôr do sol" width={1280} height={1600} />
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <p>Com a bênção de Deus</p>
+          <h1>Szilvia <span>&</span> Aldenor</h1>
+          <span className="hero-line" aria-hidden="true" />
+          <time dateTime="2026-10-24">24 de outubro de 2026</time>
+        </div>
+        <span className="scroll-mark" aria-hidden="true" />
+      </section>
+
+      <section className="verse-section section-pad">
+        <div className="verse-box">
+          <span className="verse-mark">“</span>
+          <blockquote>
+            Assim, permanecem agora estes três:<br />
+            a fé, a esperança e o amor.<br />
+            O maior deles, porém, é o amor
+          </blockquote>
+          <cite>Coríntios 13:13</cite>
+        </div>
+      </section>
+
+      <section className="parents section-pad">
+        <SectionTitle>Com a bênção de Deus<br />e de seus pais</SectionTitle>
+        <div className="parents-list font-display">
+          <div><p>Carlos Chume</p><p>Carolina Chume</p></div>
+          <span className="parents-separator" aria-hidden="true">✦</span>
+          <div><p>Albertina Jaime</p><p>Tomáz Quefasse</p></div>
+        </div>
+      </section>
+
+      <section className="invitation section-pad">
+        <p className="script-word">juntos</p>
+        <SectionTitle eyebrow="Celebração">O Convite</SectionTitle>
+        <p className="invitation-copy"><strong>Szilvia & Aldenor</strong> convidam você<br className="hidden sm:block" /> para o nosso casamento.</p>
+      </section>
+
+      <section className="date-section section-pad">
+        <div className="date-display" aria-label="24 de outubro de 2026 às 15 horas">
+          <span className="date-day">24</span><i />
+          <span className="date-month">OUTUBRO</span><i />
+          <span className="date-year">2026</span><i />
+          <span className="date-time">15:00</span>
+        </div>
+        {countdown.complete ? (
+          <p className="big-day">O grande dia chegou!</p>
+        ) : (
+          <div className="countdown" aria-label="Contagem decrescente para o casamento">
+            {[
+              [countdown.days, "DIAS"], [countdown.hours, "HORAS"],
+              [countdown.minutes, "MINUTOS"], [countdown.seconds, "SEGUNDOS"],
+            ].map(([value, label]) => (
+              <div key={label}><strong>{String(value).padStart(2, "0")}</strong><span>{label}</span></div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="agenda section-pad">
+        <SectionTitle eyebrow="24 · 10 · 2026">Agenda do Dia</SectionTitle>
+        <div className="agenda-grid">
+          <article className="agenda-card">
+            <span className="card-number">01</span>
+            <CalendarDays aria-hidden="true" />
+            <h3>Cerimónia Civil</h3>
+            <p className="event-time"><Clock3 /> 15:00</p>
+            <p className="event-place"><MapPin /> Hotel Polana</p>
+            <p>Um momento especial para celebrar a união dos noivos.</p>
+          </article>
+          <article className="agenda-card">
+            <span className="card-number">02</span>
+            <CalendarDays aria-hidden="true" />
+            <h3>Copo d’Água</h3>
+            <p className="event-time"><Clock3 /> 16:00</p>
+            <p className="event-place"><MapPin /> Hotel Polana</p>
+            <p>Um momento para celebrar, brindar e compartilhar esta nova etapa com familiares e amigos.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="location section-pad">
+        <MapPin className="location-icon" aria-hidden="true" />
+        <SectionTitle>Onde será</SectionTitle>
+        <h3>Hotel Polana</h3>
+        <p>Maputo, Moçambique</p>
+        <Button asChild size="lg" className="gold-button">
+          <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Polana+Maputo" target="_blank" rel="noreferrer"><MapPin /> Ver localização</a>
+        </Button>
+      </section>
+
+      <section className="dress-code section-pad">
+        <div className="dress-heading"><span /><p>Dress Code</p><span /></div>
+        <h2>A paleta</h2>
+        <p className="dress-copy">Vista uma das cores da nossa paleta — vamos brilhar juntos como sequins.</p>
+        <div className="swatches">
+          {[
+            ["ROXO", "swatch-purple"], ["MAGENTA", "swatch-magenta"], ["ROSA-CHOQUE", "swatch-pink"],
+            ["LARANJA-CLARO", "swatch-lightorange"], ["VERMELHO-ALARANJADO", "swatch-redorange"], ["LARANJA", "swatch-orange"],
+            ["VERDE-ESCURO", "swatch-green"], ["AZUL", "swatch-blue"],
+          ].map(([name, color], index) => (
+            <div className={`swatch-item ${index === 6 ? "swatch-row-last" : ""}`} key={name}>
+              <span className={`swatch ${color}`} aria-label={name} />
+              <p>{name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="rsvp section-pad">
+        <SectionTitle eyebrow="R.S.V.P.">Confirme sua presença</SectionTitle>
+        <p className="section-intro">Será uma alegria ter você conosco neste dia tão especial.</p>
+        {confirmed ? (
+          <div className="confirmation-state"><span><Check /></span><h3>Obrigado!</h3><p>A sua resposta foi recebida com carinho.</p></div>
+        ) : (
+          <form className="rsvp-form" onSubmit={submitRsvp}>
+            <label>Nome completo<Input required name="name" placeholder="O seu nome" /></label>
+            <label>Presença
+              <Select required name="attendance">
+                <SelectTrigger><SelectValue placeholder="Selecione uma opção" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="yes">Sim, estarei presente</SelectItem>
+                  <SelectItem value="no">Não poderei comparecer</SelectItem>
+                </SelectContent>
+              </Select>
+            </label>
+            <label>Número de acompanhantes<Input required name="guests" type="number" min="0" max="10" defaultValue="0" /></label>
+            <Button type="submit" size="lg" className="gold-button w-full">Confirmar presença</Button>
+          </form>
+        )}
+      </section>
+
+      <section className="gifts section-pad">
+        <Heart className="gift-heart" aria-hidden="true" />
+        <SectionTitle>Seu carinho é o nosso<br />maior presente</SectionTitle>
+        <p>A sua presença será o nosso maior presente. Para quem desejar nos presentear de outra forma, poderá fazê-lo através dos seguintes canais:</p>
+        <div className="phone-row">
+          <a href="tel:870532960"><Phone /> 870532960</a>
+          <Button variant="ghost" size="icon" onClick={copyPhone} aria-label="Copiar número"><Copy /></Button>
+        </div>
+        <p className="envelope-note">Ou através de envelope.</p>
+      </section>
+
+      <section className="gallery-section section-pad">
+        <SectionTitle eyebrow="Memórias">A nossa história</SectionTitle>
+        <div className="gallery-grid">
+          {photos.map((photo) => (
+            <button key={photo.src} type="button" className={photo.className} onClick={() => setSelectedPhoto(photo.src)} aria-label={`Ampliar: ${photo.alt}`}>
+              <img src={photo.src} alt={photo.alt} loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="final-section section-pad">
+        <p>O grande dia chegou!</p>
+        <span className="final-line" aria-hidden="true" />
+        <h2>Szilvia <em>&</em> Aldenor</h2>
+        <p>Esperamos por si para celebrar o nosso amor!</p>
+        <Heart className="final-heart" fill="currentColor" aria-hidden="true" />
+      </section>
+
+      <footer><p>Com amor, <span>Szilvia & Aldenor</span></p><time dateTime="2026-10-24">24 de outubro de 2026</time><Heart fill="currentColor" /></footer>
+
+      <MusicButton />
+      <Toaster position="top-center" richColors />
+
+      {selectedPhoto && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Fotografia ampliada" onClick={() => setSelectedPhoto(null)}>
+          <Button variant="ghost" size="icon" onClick={() => setSelectedPhoto(null)} aria-label="Fechar fotografia"><X /></Button>
+          <img src={selectedPhoto} alt="Fotografia ampliada de Szilvia e Aldenor" onClick={(event) => event.stopPropagation()} />
+        </div>
+      )}
+    </main>
+  );
+}
+
+declare global {
+  interface Window {
+    webkitAudioContext?: typeof AudioContext;
+  }
 }
