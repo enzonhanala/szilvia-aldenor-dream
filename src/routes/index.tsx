@@ -102,6 +102,7 @@ function EnvelopeIntro({ onOpen }: { onOpen: () => void }) {
 }
 
 function WeddingInvitation() {
+  const [opened, setOpened] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const countdown = useCountdown();
 
@@ -121,7 +122,7 @@ function WeddingInvitation() {
   return (
     <main className="invite-page animate-invite">
       <section className="hero" aria-label="Szilvia e Aldenor">
-        <img src={heroImage} alt="Szilvia e Aldenor no Hotel Polana ao pôr do sol" width={1280} height={1600} />
+        <img src={heroAsset.url} alt="Szilvia e Aldenor no Hotel Polana ao pôr do sol" width={1280} height={1600} />
         <div className="hero-overlay" />
         <div className="hero-content">
           <p>Com a bênção de Deus</p>
