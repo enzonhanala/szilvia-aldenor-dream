@@ -6,18 +6,12 @@ import {
   Copy,
   Heart,
   MapPin,
-  Music2,
-  Pause,
   Phone,
-  X,
 } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import heroImage from "@/assets/szilvia-aldenor-hero.jpg";
-import handsImage from "@/assets/szilvia-aldenor-hands.jpg";
-import gardenImage from "@/assets/szilvia-aldenor-garden.jpg";
-import portraitImage from "@/assets/szilvia-aldenor-portrait.jpg";
+import heroAsset from "@/assets/szilvia-aldenor-hero.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -107,69 +101,9 @@ function EnvelopeIntro({ onOpen }: { onOpen: () => void }) {
   );
 }
 
-function MusicButton() {
-  const [playing, setPlaying] = useState(false);
-  const contextRef = useRef<AudioContext | null>(null);
-  const timerRef = useRef<number | null>(null);
-  const stepRef = useRef(0);
-
-  const stop = () => {
-    if (timerRef.current !== null) window.clearInterval(timerRef.current);
-    timerRef.current = null;
-    contextRef.current?.close();
-    contextRef.current = null;
-    setPlaying(false);
-  };
-
-  const playNote = (ctx: AudioContext, frequency: number) => {
-    const oscillator = ctx.createOscillator();
-    const gain = ctx.createGain();
-    oscillator.type = "sine";
-    oscillator.frequency.value = frequency;
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.055, ctx.currentTime + 0.08);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.25);
-    oscillator.connect(gain).connect(ctx.destination);
-    oscillator.start();
-    oscillator.stop(ctx.currentTime + 1.3);
-  };
-
-  const toggle = () => {
-    if (playing) return stop();
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return;
-    const ctx = new AudioContextClass();
-    contextRef.current = ctx;
-    const melody = [261.63, 329.63, 392, 329.63, 293.66, 349.23, 440, 349.23];
-    playNote(ctx, melody[0] ?? 261.63);
-    timerRef.current = window.setInterval(() => {
-      stepRef.current = (stepRef.current + 1) % melody.length;
-      if (contextRef.current) playNote(contextRef.current, melody[stepRef.current] ?? 261.63);
-    }, 1100);
-    setPlaying(true);
-  };
-
-  useEffect(() => () => stop(), []);
-
-  return (
-    <Button onClick={toggle} className={`music-button ${playing ? "is-playing" : ""}`} aria-label={playing ? "Pausar música" : "Tocar música"}>
-      {playing ? <Pause /> : <Music2 />}
-      <span>{playing ? "Pausar" : "Música"}</span>
-    </Button>
-  );
-}
-
 function WeddingInvitation() {
-  const [opened, setOpened] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const countdown = useCountdown();
-  const photos = [
-    { src: portraitImage, alt: "Szilvia e Aldenor num retrato romântico", className: "gallery-tall" },
-    { src: gardenImage, alt: "Szilvia e Aldenor caminhando no jardim", className: "gallery-wide" },
-    { src: handsImage, alt: "As mãos dos noivos e as alianças", className: "gallery-tall" },
-    { src: heroImage, alt: "Szilvia e Aldenor ao pôr do sol", className: "gallery-wide" },
-  ];
 
   const submitRsvp = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
