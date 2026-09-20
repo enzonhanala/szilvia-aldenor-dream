@@ -105,11 +105,23 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .hero-content time { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: .08em; }
 .scroll-mark { position: absolute; bottom: 1.5rem; z-index: 2; width: 1px; height: 45px; background: linear-gradient(to bottom, var(--gold), transparent); }
 
-.verse-section { background: oklch(0.945 0.025 79); }
-.verse-box { position: relative; max-width: 740px; margin: auto; padding: 3rem 1.5rem 2.5rem; border: 1px solid var(--gold); text-align: center; }
-.verse-mark { position: absolute; top: -2rem; left: 50%; translate: -50%; padding: 0 .8rem; background: oklch(0.945 0.025 79); color: var(--gold); font-family: var(--font-display); font-size: 4rem; }
-.verse-box blockquote { font-family: var(--font-display); font-size: clamp(1.45rem, 5vw, 2.25rem); font-style: italic; line-height: 1.45; }
-.verse-box cite { display: block; margin-top: 1.7rem; color: var(--gold); font-size: .65rem; font-style: normal; font-weight: 600; text-transform: uppercase; letter-spacing: .25em; }
+.verse-section { background: oklch(0.955 0.018 82); }
+.verse-box { position: relative; max-width: 720px; margin: auto; padding: 4.25rem 2rem 3.75rem; border: 1px solid color-mix(in oklab, var(--gold) 65%, transparent); text-align: center; }
+.verse-box::before { content: ""; position: absolute; inset: 7px; border: 1px solid color-mix(in oklab, var(--gold) 28%, transparent); pointer-events: none; }
+.verse-box::after { content: ""; position: absolute; inset: 11px; border: 1px solid color-mix(in oklab, var(--gold) 12%, transparent); pointer-events: none; }
+.verse-corner { position: absolute; width: 14px; height: 14px; border-color: var(--gold); border-style: solid; }
+.verse-corner.tl { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.verse-corner.tr { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+.verse-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+.verse-corner.br { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.verse-mark { position: absolute; top: -2.4rem; left: 50%; translate: -50%; padding: 0 .9rem; background: oklch(0.955 0.018 82); color: var(--gold); font-family: var(--font-display); font-size: 4rem; line-height: 1.2; }
+.verse-ornament { display: flex; align-items: center; justify-content: center; gap: .8rem; margin-bottom: 1.9rem; color: var(--gold); }
+.verse-ornament::before, .verse-ornament::after { content: ""; width: 34px; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 75%, transparent)); }
+.verse-ornament::after { transform: scaleX(-1); }
+.verse-ornament svg { width: 11px; height: 11px; }
+.verse-box blockquote { font-family: var(--font-display); font-size: clamp(1.45rem, 5vw, 2.25rem); font-style: italic; line-height: 1.5; }
+.verse-box cite { display: flex; align-items: center; justify-content: center; gap: .8rem; margin-top: 2.1rem; color: var(--gold); font-size: .65rem; font-style: normal; font-weight: 600; text-transform: uppercase; letter-spacing: .25em; }
+.verse-box cite::before, .verse-box cite::after { content: ""; width: 22px; height: 1px; background: color-mix(in oklab, var(--gold) 55%, transparent); }
 .parents-list { display: flex; max-width: 780px; margin: auto; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center; font-size: 1.7rem; line-height: 1.7; }
 .parents-separator { color: var(--gold); font-size: .8rem; }
 .invitation { position: relative; text-align: center; background: oklch(0.96 0.025 82); }
@@ -149,7 +161,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .gold-button { min-height: 48px; border: 1px solid var(--gold); background: var(--chocolate); color: var(--primary-foreground); border-radius: 0; text-transform: uppercase; letter-spacing: .13em; box-shadow: none; }
 .gold-button:hover { background: var(--gold); }
 
-.dress-code { background: var(--wine); color: oklch(0.92 0.02 70); text-align: center; }
+.dress-code { background: linear-gradient(180deg, oklch(0.155 0.05 348), oklch(0.115 0.035 355) 55%, oklch(0.14 0.045 345)); color: oklch(0.92 0.02 70); text-align: center; }
 .dress-heading { display: flex; align-items: center; justify-content: center; gap: 1rem; color: var(--gold); }
 .dress-heading span { width: clamp(40px, 12vw, 100px); height: 1px; background: var(--gold); }
 .dress-heading p { font-size: .67rem; font-weight: 600; text-transform: uppercase; letter-spacing: .32em; }
