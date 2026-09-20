@@ -141,10 +141,10 @@ function MusicButton() {
     const ctx = new AudioContextClass();
     contextRef.current = ctx;
     const melody = [261.63, 329.63, 392, 329.63, 293.66, 349.23, 440, 349.23];
-    playNote(ctx, melody[0]);
+    playNote(ctx, melody[0] ?? 261.63);
     timerRef.current = window.setInterval(() => {
       stepRef.current = (stepRef.current + 1) % melody.length;
-      if (contextRef.current) playNote(contextRef.current, melody[stepRef.current]);
+      if (contextRef.current) playNote(contextRef.current, melody[stepRef.current] ?? 261.63);
     }, 1100);
     setPlaying(true);
   };
