@@ -265,17 +265,6 @@ function WeddingInvitation() {
         <p className="envelope-note">Ou através de envelope.</p>
       </section>
 
-      <section className="gallery-section section-pad">
-        <SectionTitle eyebrow="Memórias">A nossa história</SectionTitle>
-        <div className="gallery-grid">
-          {photos.map((photo) => (
-            <button key={photo.src} type="button" className={photo.className} onClick={() => setSelectedPhoto(photo.src)} aria-label={`Ampliar: ${photo.alt}`}>
-              <img src={photo.src} alt={photo.alt} loading="lazy" />
-            </button>
-          ))}
-        </div>
-      </section>
-
       <section className="final-section section-pad">
         <p>O grande dia chegou!</p>
         <span className="final-line" aria-hidden="true" />
@@ -286,21 +275,7 @@ function WeddingInvitation() {
 
       <footer><p>Com amor, <span>Szilvia & Aldenor</span></p><time dateTime="2026-10-24">24 de outubro de 2026</time><Heart fill="currentColor" /></footer>
 
-      <MusicButton />
       <Toaster position="top-center" richColors />
-
-      {selectedPhoto && (
-        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Fotografia ampliada" onClick={() => setSelectedPhoto(null)}>
-          <Button variant="ghost" size="icon" onClick={() => setSelectedPhoto(null)} aria-label="Fechar fotografia"><X /></Button>
-          <img src={selectedPhoto} alt="Fotografia ampliada de Szilvia e Aldenor" onClick={(event) => event.stopPropagation()} />
-        </div>
-      )}
     </main>
   );
-}
-
-declare global {
-  interface Window {
-    webkitAudioContext?: typeof AudioContext;
-  }
 }
