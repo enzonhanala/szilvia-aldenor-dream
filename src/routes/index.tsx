@@ -135,7 +135,14 @@ function WeddingInvitation() {
 
       <section className="verse-section section-pad">
         <div className="verse-box">
+          <span className="verse-corner tl" aria-hidden="true" />
+          <span className="verse-corner tr" aria-hidden="true" />
+          <span className="verse-corner bl" aria-hidden="true" />
+          <span className="verse-corner br" aria-hidden="true" />
           <span className="verse-mark">“</span>
+          <div className="verse-ornament" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 0l6 6-6 6-6-6z" /></svg>
+          </div>
           <blockquote>
             Assim, permanecem agora estes três:<br />
             a fé, a esperança e o amor.<br />
