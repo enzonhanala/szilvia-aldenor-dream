@@ -344,24 +344,8 @@ function WeddingInvitation() {
       <section className="rsvp section-pad">
         <SectionTitle eyebrow="R.S.V.P.">Confirme sua presença</SectionTitle>
         <p className="section-intro">Será uma alegria ter você conosco neste dia tão especial.</p>
-        {confirmed ? (
-          <div className="confirmation-state"><span><Check /></span><h3>Obrigado!</h3><p>A sua resposta foi recebida com carinho.</p></div>
-        ) : (
-          <form className="rsvp-form" onSubmit={submitRsvp}>
-            <label>Nome completo<Input required name="name" placeholder="O seu nome" /></label>
-            <label>Presença
-              <Select required name="attendance">
-                <SelectTrigger><SelectValue placeholder="Selecione uma opção" /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="yes">Sim, estarei presente</SelectItem>
-                  <SelectItem value="no">Não poderei comparecer</SelectItem>
-                </SelectContent>
-              </Select>
-            </label>
-            <label>Número de acompanhantes<Input required name="guests" type="number" min="0" max="10" defaultValue="0" /></label>
-            <Button type="submit" size="lg" className="gold-button w-full">Confirmar presença</Button>
-          </form>
-        )}
+        <RsvpSection />
+
       </section>
 
       <section className="gifts section-pad">
