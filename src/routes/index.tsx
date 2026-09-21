@@ -97,21 +97,128 @@ function EnvelopeIntro({ onOpen }: { onOpen: () => void }) {
   );
 }
 
-function WeddingInvitation() {
-  const [opened, setOpened] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
-  const countdown = useCountdown();
+const STORAGE_KEY = "sa-rsvp-confirmed-guest";
+const WHATSAPP_NUMBER = "258870532960";
 
-  const submitRsvp = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setConfirmed(true);
+function RsvpSection() {
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<Guest | null>(null);
+  const [confirmed, setConfirmed] = useState<Guest | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      if (!stored) return;
+      const guest = GUESTS.find((item) => item.name === stored);
+      if (guest) setConfirmed(guest);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const results = useMemo(() => (selected ? [] : searchGuests(query)), [query, selected]);
+  const noMatch = !selected && query.trim().length >= 2 && results.length === 0;
+
+  const confirmPresence = () => {
+    if (!selected) return;
+    setConfirmed(selected);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, selected.name);
+    } catch {
+      /* ignore */
+    }
     toast.success("Presença confirmada", { description: "Obrigado por celebrar este dia connosco." });
   };
+
+  const declinePresence = () => {
+    if (!selected) return;
+    const message = `Olá! Sou ${selected.name} e gostaria de informar que não poderei comparecer ao casamento no dia 24 de Outubro de 2026 às 15:00h.`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+  };
+
+  if (confirmed) {
+    return (
+      <div className="pass-card">
+        <span className="pass-corner tl" aria-hidden="true" />
+        <span className="pass-corner tr" aria-hidden="true" />
+        <span className="pass-corner bl" aria-hidden="true" />
+        <span className="pass-corner br" aria-hidden="true" />
+        <span className="pass-check"><Check /></span>
+        <p className="pass-eyebrow">Confirmação de presença</p>
+        <h3 className="pass-title">A sua presença foi confirmada!</h3>
+        <p className="pass-name">{confirmed.name}</p>
+        <div className="pass-code">
+          <span>Código de acesso</span>
+          <strong>{confirmed.code}</strong>
+        </div>
+        <div className="pass-meta">
+          <div><span>Data</span><p>24 de Outubro de 2026</p></div>
+          <div><span>Horário</span><p>15:00h</p></div>
+        </div>
+        <p className="pass-note">Apresente este código na entrada</p>
+        <p className="pass-hint">Faça uma captura de ecrã pra puder apresentar essa imagem na entrada.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rsvp-form">
+      <label>
+        Pesquise o seu nome
+        <span className="rsvp-search">
+          <Search aria-hidden="true" />
+          <Input
+            value={selected ? selected.name : query}
+            onChange={(event) => {
+              setSelected(null);
+              setQuery(event.target.value);
+            }}
+            placeholder="Escreva o seu primeiro nome"
+            autoComplete="off"
+            inputMode="text"
+            aria-label="Pesquisar nome do convidado"
+          />
+        </span>
+      </label>
+
+      {results.length > 0 && (
+        <ul className="guest-results" role="listbox" aria-label="Convidados encontrados">
+          {results.map((guest) => (
+            <li key={guest.code}>
+              <button type="button" onClick={() => setSelected(guest)}>{guest.name}</button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {noMatch && (
+        <p className="guest-missing">
+          Caso não encontre o seu nome na lista, entre em contacto com o número +258 870532960
+        </p>
+      )}
+
+      {selected && (
+        <div className="guest-selected">
+          <p><span>Convidado selecionado</span><strong>{selected.name}</strong></p>
+          <Button size="lg" className="gold-button w-full" onClick={confirmPresence}>Confirmar presença</Button>
+          <Button size="lg" variant="outline" className="decline-button w-full" onClick={declinePresence}>
+            Não poderei comparecer
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function WeddingInvitation() {
+  const [opened, setOpened] = useState(false);
+  const countdown = useCountdown();
 
   const copyPhone = async () => {
     await navigator.clipboard.writeText("870532960");
     toast.success("Número copiado");
   };
+
 
   if (!opened) return <EnvelopeIntro onOpen={() => setOpened(true)} />;
 
