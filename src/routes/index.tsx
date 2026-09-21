@@ -7,21 +7,17 @@ import {
   Heart,
   MapPin,
   Phone,
+  Search,
 } from "lucide-react";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import heroAsset from "@/assets/szilvia-aldenor-hero.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
+import { GUESTS, searchGuests, type Guest } from "@/lib/guests";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
