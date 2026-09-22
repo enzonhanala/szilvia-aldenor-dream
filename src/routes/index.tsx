@@ -4,6 +4,7 @@ import {
   Check,
   Clock3,
   Copy,
+  Download,
   Heart,
   MapPin,
   Phone,

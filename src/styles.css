@@ -257,12 +257,18 @@ footer svg { width: 12px; color: var(--gold); }
 .pass-check { display: grid; width: 54px; height: 54px; margin: 0 auto 1.2rem; place-items: center; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); }
 .pass-eyebrow { font-size: .62rem; font-weight: 600; text-transform: uppercase; letter-spacing: .28em; color: var(--gold); }
 .pass-title { margin-top: .7rem; font-family: var(--font-display); font-size: 1.85rem; font-weight: 400; font-style: italic; color: var(--chocolate); }
-.pass-name { margin-top: 1.1rem; font-family: var(--font-display); font-size: 2.3rem; line-height: 1.15; color: var(--chocolate); }
+.pass-couple { margin-top: 1.4rem; font-family: var(--font-display); font-style: italic; font-size: 1.5rem; color: var(--gold); }
+.pass-label { margin-top: 1.1rem; font-size: .58rem; font-weight: 600; text-transform: uppercase; letter-spacing: .24em; color: var(--gold); }
+.pass-name { margin-top: .4rem; font-family: var(--font-display); font-size: 1.9rem; line-height: 1.2; color: var(--chocolate); overflow-wrap: anywhere; }
+.pass-name span { display: block; }
+.pass-name em { display: block; font-style: italic; font-size: 1.1rem; color: var(--gold); }
+.pass-table { margin-top: .4rem; font-family: var(--font-display); font-size: 1.2rem; color: var(--chocolate); }
 .pass-code { margin: 1.5rem auto; padding: 1rem .8rem; border: 1px solid color-mix(in oklch, var(--gold) 55%, transparent); background: color-mix(in oklch, var(--gold) 9%, transparent); }
 .pass-code span { display: block; font-size: .6rem; font-weight: 600; text-transform: uppercase; letter-spacing: .24em; color: var(--gold); }
-.pass-code strong { display: block; margin-top: .45rem; font-family: var(--font-sans); font-size: 2rem; font-weight: 700; letter-spacing: .28em; color: var(--chocolate); }
+.pass-code strong { display: block; margin-top: .45rem; font-family: var(--font-sans); font-size: 1.8rem; font-weight: 700; letter-spacing: .2em; color: var(--chocolate); }
 .pass-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-top: 1.1rem; border-top: 1px solid color-mix(in oklch, var(--gold) 30%, transparent); }
+.pass-meta-full { grid-column: 1 / -1; }
 .pass-meta span { display: block; font-size: .58rem; font-weight: 600; text-transform: uppercase; letter-spacing: .2em; color: var(--gold); }
 .pass-meta p { margin-top: .35rem; font-family: var(--font-display); font-size: 1.05rem; color: var(--chocolate); }
-.pass-note { margin-top: 1.5rem; font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: var(--chocolate); }
-.pass-hint { margin-top: .6rem; font-size: .78rem; line-height: 1.6; color: var(--muted-foreground); }
+.pass-download { width: 100%; margin-top: 1.6rem; }
+.pass-hint { margin-top: .8rem; font-size: .78rem; line-height: 1.6; color: var(--muted-foreground); }
