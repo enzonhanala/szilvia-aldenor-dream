@@ -16,18 +16,18 @@ export function passFileName(guest: Guest) {
 
 export async function downloadAccessPass(guest: Guest) {
   const { jsPDF } = await import("jspdf");
-  const doc = new jsPDF({ unit: "mm", format: [105, 160] });
+  const doc = new jsPDF({ unit: "mm", format: [105, 190] });
   const W = 105;
   const center = W / 2;
 
   doc.setFillColor(...CREAM);
-  doc.rect(0, 0, W, 160, "F");
+  doc.rect(0, 0, W, 190, "F");
 
   doc.setDrawColor(...GOLD);
   doc.setLineWidth(0.6);
-  doc.rect(6, 6, W - 12, 148);
+  doc.rect(6, 6, W - 12, 178);
   doc.setLineWidth(0.2);
-  doc.rect(8.5, 8.5, W - 17, 143);
+  doc.rect(8.5, 8.5, W - 17, 173);
 
   doc.setTextColor(...GOLD);
   doc.setFont("times", "italic");
@@ -84,7 +84,7 @@ export async function downloadAccessPass(guest: Guest) {
   doc.setTextColor(...GOLD);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(6.5);
-  doc.text("Apresente este cartão na entrada do evento", center, 147, { align: "center" });
+  doc.text("Apresente este cartão na entrada do evento", center, 177, { align: "center" });
 
   doc.save(passFileName(guest));
 }
