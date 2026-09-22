@@ -4,6 +4,7 @@ import {
   Check,
   Clock3,
   Copy,
+  Download,
   Heart,
   MapPin,
   Phone,
@@ -137,6 +138,16 @@ function RsvpSection() {
   };
 
   if (confirmed) {
+    const downloadPdf = async () => {
+      try {
+        const { downloadAccessPass } = await import("@/lib/access-pass-pdf");
+        await downloadAccessPass(confirmed);
+        toast.success("Cartão de acesso descarregado");
+      } catch {
+        toast.error("Não foi possível gerar o PDF. Tente novamente.");
+      }
+    };
+
     return (
       <div className="pass-card">
         <span className="pass-corner tl" aria-hidden="true" />
@@ -146,17 +157,31 @@ function RsvpSection() {
         <span className="pass-check"><Check /></span>
         <p className="pass-eyebrow">Confirmação de presença</p>
         <h3 className="pass-title">A sua presença foi confirmada!</h3>
-        <p className="pass-name">{confirmed.name}</p>
+        <p className="pass-couple">Szilvia &amp; Aldenor</p>
+        <p className="pass-label">Convidado</p>
+        <p className="pass-name">
+          {confirmed.name.split(" & ").map((part, index, all) => (
+            <span key={part}>
+              {part}
+              {index < all.length - 1 && <em> &amp; </em>}
+            </span>
+          ))}
+        </p>
+        <p className="pass-label">Mesa</p>
+        <p className="pass-table">{confirmed.table}</p>
         <div className="pass-code">
           <span>Código de acesso</span>
           <strong>{confirmed.code}</strong>
         </div>
         <div className="pass-meta">
           <div><span>Data</span><p>24 de Outubro de 2026</p></div>
-          <div><span>Horário</span><p>15:00h</p></div>
+          <div><span>Horário</span><p>15:00</p></div>
+          <div className="pass-meta-full"><span>Local</span><p>Hotel Polana</p></div>
         </div>
-        <p className="pass-note">Apresente este código na entrada</p>
-        <p className="pass-hint">Faça uma captura de ecrã pra puder apresentar essa imagem na entrada.</p>
+        <Button size="lg" className="gold-button pass-download" onClick={downloadPdf}>
+          <Download /> Baixar cartão em PDF
+        </Button>
+        <p className="pass-hint">Guarde este cartão e apresente-o na entrada do evento.</p>
       </div>
     );
   }
