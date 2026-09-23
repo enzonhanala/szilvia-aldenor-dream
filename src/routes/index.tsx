@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   CalendarDays,
   Check,
+  ChevronRight,
   Clock3,
   Copy,
   Download,
@@ -99,7 +100,7 @@ function EnvelopeIntro({ onOpen }: { onOpen: () => void }) {
 }
 
 const STORAGE_KEY = "sa-rsvp-confirmed-guest";
-const WHATSAPP_NUMBER = "258870532960";
+const WHATSAPP_NUMBER = "258822532960";
 
 function RsvpSection() {
   const [query, setQuery] = useState("");
@@ -138,6 +139,9 @@ function RsvpSection() {
   };
 
   if (confirmed) {
+    const tableMatch = confirmed.table.match(/^Mesa\s+(\d+)\s+—\s+(.+)$/);
+    const tableNumber = tableMatch?.[1]?.padStart(2, "0") ?? confirmed.table;
+    const tableName = tableMatch?.[2] ?? "";
     const downloadPdf = async () => {
       try {
         const { downloadAccessPass } = await import("@/lib/access-pass-pdf");
@@ -149,35 +153,48 @@ function RsvpSection() {
     };
 
     return (
-      <div className="pass-card">
-        <span className="pass-corner tl" aria-hidden="true" />
-        <span className="pass-corner tr" aria-hidden="true" />
-        <span className="pass-corner bl" aria-hidden="true" />
-        <span className="pass-corner br" aria-hidden="true" />
-        <span className="pass-check"><Check /></span>
-        <p className="pass-eyebrow">Confirmação de presença</p>
-        <h3 className="pass-title">A sua presença foi confirmada!</h3>
-        <p className="pass-couple">Szilvia &amp; Aldenor</p>
-        <p className="pass-label">Convidado</p>
-        <p className="pass-name">
-          {confirmed.name.split(" & ").map((part, index, all) => (
-            <span key={part}>
-              {part}
-              {index < all.length - 1 && <em> &amp; </em>}
-            </span>
-          ))}
-        </p>
-        <p className="pass-label">Mesa</p>
-        <p className="pass-table">{confirmed.table}</p>
-        <div className="pass-code">
-          <span>Código de acesso</span>
-          <strong>{confirmed.code}</strong>
-        </div>
-        <div className="pass-meta">
-          <div><span>Data</span><p>24 de Outubro de 2026</p></div>
-          <div><span>Horário</span><p>15:00</p></div>
-          <div className="pass-meta-full"><span>Local</span><p>Hotel Polana</p></div>
-        </div>
+      <div className="pass-stage">
+        <p className="pass-confirmed"><Check aria-hidden="true" /> Presença confirmada</p>
+        <article className="pass-card" aria-label={`Cartão de acesso de ${confirmed.name}`}>
+          <span className="pass-corner tl" aria-hidden="true" />
+          <span className="pass-corner tr" aria-hidden="true" />
+          <span className="pass-corner bl" aria-hidden="true" />
+          <span className="pass-corner br" aria-hidden="true" />
+          <header className="pass-header">
+            <p className="pass-couple">Szilvia <em>&amp;</em> Aldenor</p>
+            <span className="pass-ornament" aria-hidden="true"><i /><b>◆</b><i /></span>
+            <h3 className="pass-title">Cartão de Acesso</h3>
+          </header>
+          <section className="pass-guest">
+            <p className="pass-label">Convidado</p>
+            <p className="pass-name">
+              {confirmed.name.split(" & ").map((part, index, all) => (
+                <span key={part}>
+                  {part}
+                  {index < all.length - 1 && <em> &amp; </em>}
+                </span>
+              ))}
+            </p>
+          </section>
+          <div className="pass-details">
+            <section className="pass-table">
+              <p className="pass-label">Mesa</p>
+              <strong>{tableNumber}</strong>
+              {tableName && <span>{tableName}</span>}
+            </section>
+            <section className="pass-code">
+              <span>Código de acesso</span>
+              <strong>{confirmed.code}</strong>
+            </section>
+          </div>
+          <div className="pass-meta">
+            <p>24 de Outubro de 2026</p>
+            <span aria-hidden="true" />
+            <p>15:00</p>
+            <span aria-hidden="true" />
+            <p>Hotel Polana</p>
+          </div>
+        </article>
         <Button size="lg" className="gold-button pass-download" onClick={downloadPdf}>
           <Download /> Baixar cartão em PDF
         </Button>
@@ -210,7 +227,9 @@ function RsvpSection() {
         <ul className="guest-results" role="listbox" aria-label="Convidados encontrados">
           {results.map((guest) => (
             <li key={guest.code}>
-              <button type="button" onClick={() => setSelected(guest)}>{guest.name}</button>
+              <Button type="button" variant="ghost" onClick={() => setSelected(guest)}>
+                <span>{guest.name}</span><ChevronRight aria-hidden="true" />
+              </Button>
             </li>
           ))}
         </ul>
@@ -218,7 +237,7 @@ function RsvpSection() {
 
       {noMatch && (
         <p className="guest-missing">
-          Caso não encontre o seu nome na lista, entre em contacto com o número +258 870532960
+          Caso não encontre o seu nome na lista, entre em contacto com os números <a href="tel:+258822532960">+258 822 532 960</a> ou <a href="tel:+8615701329252">+86 157 013 29252</a>.
         </p>
       )}
 
