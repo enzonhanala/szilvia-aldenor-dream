@@ -136,10 +136,10 @@ function RsvpSection() {
     toast.success("Presença confirmada", { description: "Obrigado por celebrar este dia connosco." });
   };
 
-  const declinePresence = () => {
+  const declinePresence = (contact: (typeof DECLINE_CONTACTS)[number]) => {
     if (!selected) return;
     const message = `Olá! Sou ${selected.name} e gostaria de informar que não poderei comparecer ao casamento no dia 24 de Outubro de 2026 às 15:00h.`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+    window.open(`https://wa.me/${contact.number}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
   };
 
   if (confirmed) {
