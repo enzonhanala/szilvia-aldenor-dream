@@ -217,6 +217,7 @@ function RsvpSection() {
             value={selected ? selected.name : query}
             onChange={(event) => {
               setSelected(null);
+              setDeclineOpen(false);
               setQuery(event.target.value);
             }}
             placeholder="Escreva o seu primeiro nome"
