@@ -100,12 +100,16 @@ function EnvelopeIntro({ onOpen }: { onOpen: () => void }) {
 }
 
 const STORAGE_KEY = "sa-rsvp-confirmed-guest";
-const WHATSAPP_NUMBER = "258822532960";
+const DECLINE_CONTACTS = [
+  { number: "258822532960", label: "+258 82 253 2960" },
+  { number: "8615701329252", label: "+86 157 013 29252" },
+] as const;
 
 function RsvpSection() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Guest | null>(null);
   const [confirmed, setConfirmed] = useState<Guest | null>(null);
+  const [declineOpen, setDeclineOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -132,10 +136,10 @@ function RsvpSection() {
     toast.success("Presença confirmada", { description: "Obrigado por celebrar este dia connosco." });
   };
 
-  const declinePresence = () => {
+  const declinePresence = (contact: (typeof DECLINE_CONTACTS)[number]) => {
     if (!selected) return;
     const message = `Olá! Sou ${selected.name} e gostaria de informar que não poderei comparecer ao casamento no dia 24 de Outubro de 2026 às 15:00h.`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+    window.open(`https://wa.me/${contact.number}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
   };
 
   if (confirmed) {
@@ -213,6 +217,7 @@ function RsvpSection() {
             value={selected ? selected.name : query}
             onChange={(event) => {
               setSelected(null);
+              setDeclineOpen(false);
               setQuery(event.target.value);
             }}
             placeholder="Escreva o seu primeiro nome"
@@ -245,9 +250,31 @@ function RsvpSection() {
         <div className="guest-selected">
           <p><span>Convidado selecionado</span><strong>{selected.name}</strong></p>
           <Button size="lg" className="gold-button w-full" onClick={confirmPresence}>Confirmar presença</Button>
-          <Button size="lg" variant="outline" className="decline-button w-full" onClick={declinePresence}>
+          <Button
+            size="lg"
+            variant="outline"
+            className="decline-button w-full"
+            aria-expanded={declineOpen}
+            onClick={() => setDeclineOpen((open) => !open)}
+          >
             Não poderei comparecer
           </Button>
+          {declineOpen && (
+            <div className="decline-options">
+              <p>Para onde deseja enviar a mensagem?</p>
+              {DECLINE_CONTACTS.map((contact) => (
+                <Button
+                  key={contact.number}
+                  size="lg"
+                  variant="outline"
+                  className="decline-option"
+                  onClick={() => declinePresence(contact)}
+                >
+                  {contact.label}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
