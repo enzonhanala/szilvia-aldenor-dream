@@ -259,6 +259,10 @@ footer svg { width: 12px; color: var(--gold); }
 .guest-selected .gold-button { border-radius: 2px; }
 .decline-button { min-height: 48px; border: 1px solid color-mix(in oklab, var(--chocolate) 30%, transparent); border-radius: 2px; background: transparent; color: var(--chocolate); text-transform: uppercase; letter-spacing: .11em; }
 .decline-button:hover { background: color-mix(in oklab, var(--chocolate) 6%, transparent); }
+.decline-options { display: grid; gap: .6rem; padding: 1.1rem .9rem 1.15rem; border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent); border-radius: 2px; background: color-mix(in oklab, var(--card) 90%, transparent); animation: rsvp-result-in .3s ease both; }
+.decline-options > p { margin-bottom: .3rem; color: var(--muted-foreground); font-family: var(--font-display); font-size: 1rem; font-style: italic; }
+.decline-option { min-height: 48px; justify-content: center; border: 1px solid color-mix(in oklab, var(--gold) 55%, transparent); border-radius: 2px; background: transparent; color: var(--chocolate); font-weight: 600; letter-spacing: .08em; }
+.decline-option:hover, .decline-option:focus-visible { border-color: var(--gold); background: color-mix(in oklab, var(--gold) 9%, transparent); }
 
 .pass-stage { width: 100%; max-width: 480px; margin: 0 auto; text-align: center; animation: pass-reveal .7s cubic-bezier(.2,.75,.2,1) both; }
 .pass-confirmed { display: inline-flex; align-items: center; gap: .55rem; margin-bottom: 1.15rem; color: var(--gold); font-size: .61rem; font-weight: 600; text-transform: uppercase; letter-spacing: .19em; }

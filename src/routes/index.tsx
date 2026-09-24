@@ -250,9 +250,31 @@ function RsvpSection() {
         <div className="guest-selected">
           <p><span>Convidado selecionado</span><strong>{selected.name}</strong></p>
           <Button size="lg" className="gold-button w-full" onClick={confirmPresence}>Confirmar presença</Button>
-          <Button size="lg" variant="outline" className="decline-button w-full" onClick={declinePresence}>
+          <Button
+            size="lg"
+            variant="outline"
+            className="decline-button w-full"
+            aria-expanded={declineOpen}
+            onClick={() => setDeclineOpen((open) => !open)}
+          >
             Não poderei comparecer
           </Button>
+          {declineOpen && (
+            <div className="decline-options">
+              <p>Para onde deseja enviar a mensagem?</p>
+              {DECLINE_CONTACTS.map((contact) => (
+                <Button
+                  key={contact.number}
+                  size="lg"
+                  variant="outline"
+                  className="decline-option"
+                  onClick={() => declinePresence(contact)}
+                >
+                  {contact.label}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
