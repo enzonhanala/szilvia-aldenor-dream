@@ -100,12 +100,16 @@ function EnvelopeIntro({ onOpen }: { onOpen: () => void }) {
 }
 
 const STORAGE_KEY = "sa-rsvp-confirmed-guest";
-const WHATSAPP_NUMBER = "258822532960";
+const DECLINE_CONTACTS = [
+  { number: "258822532960", label: "+258 82 253 2960" },
+  { number: "8615701329252", label: "+86 157 013 29252" },
+] as const;
 
 function RsvpSection() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Guest | null>(null);
   const [confirmed, setConfirmed] = useState<Guest | null>(null);
+  const [declineOpen, setDeclineOpen] = useState(false);
 
   useEffect(() => {
     try {
