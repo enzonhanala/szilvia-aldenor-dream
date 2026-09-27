@@ -281,6 +281,26 @@ function RsvpSection() {
   );
 }
 
+const NAV = [["#inicio","Início"],["#convite","O Convite"],["#agenda","Agenda"],["#localizacao","Localização"],["#dress-code","Dress Code"],["#rsvp","Confirmar Presença"],["#presentes","Presentes"]] as const;
+
+function InviteNav() {
+  const [open, setOpen] = useState(false);
+  return (
+    <nav className={`invite-nav ${open ? "is-open" : ""}`} aria-label="Navegação do convite">
+      <button type="button" className="invite-nav-toggle" aria-expanded={open} aria-label={open ? "Fechar menu" : "Abrir menu"} onClick={() => setOpen((o) => !o)}>
+        <span /><span />
+      </button>
+      {open && (
+        <ul>
+          {NAV.map(([href, label]) => (
+            <li key={href}><a href={href} onClick={() => setOpen(false)}>{label}</a></li>
+          ))}
+        </ul>
+      )}
+    </nav>
+  );
+}
+
 function WeddingInvitation() {
   const [opened, setOpened] = useState(false);
   const countdown = useCountdown();
@@ -295,7 +315,8 @@ function WeddingInvitation() {
 
   return (
     <main className="invite-page animate-invite">
-      <section className="hero" aria-label="Szilvia e Aldenor">
+      <InviteNav />
+      <section id="inicio" className="hero" aria-label="Szilvia e Aldenor">
         <img src={heroAsset.url} alt="Szilvia e Aldenor no Hotel Polana ao pôr do sol" width={1280} height={1600} />
         <div className="hero-overlay" />
         <div className="hero-content">
@@ -304,7 +325,7 @@ function WeddingInvitation() {
           <span className="hero-line" aria-hidden="true" />
           <time dateTime="2026-10-24">24 de outubro de 2026</time>
         </div>
-        <span className="scroll-mark" aria-hidden="true" />
+        <a href="#convite" className="scroll-mark" aria-label="Continuar a ver o convite"><small>Deslize</small><span /></a>
       </section>
 
       <section className="verse-section section-pad">
@@ -335,7 +356,7 @@ function WeddingInvitation() {
         </div>
       </section>
 
-      <section className="invitation section-pad">
+      <section id="convite" className="invitation section-pad">
         <p className="script-word">juntos</p>
         <SectionTitle eyebrow="Celebração">O Convite</SectionTitle>
         <p className="invitation-copy"><strong>Szilvia & Aldenor</strong> convidam você<br className="hidden sm:block" /> para o nosso casamento.</p>
@@ -362,7 +383,7 @@ function WeddingInvitation() {
         )}
       </section>
 
-      <section className="agenda section-pad">
+      <section id="agenda" className="agenda section-pad">
         <SectionTitle eyebrow="24 · 10 · 2026">Agenda do Dia</SectionTitle>
         <div className="agenda-grid">
           <article className="agenda-card">
@@ -384,7 +405,7 @@ function WeddingInvitation() {
         </div>
       </section>
 
-      <section className="location section-pad">
+      <section id="localizacao" className="location section-pad">
         <MapPin className="location-icon" aria-hidden="true" />
         <SectionTitle>Onde será</SectionTitle>
         <h3>Hotel Polana</h3>
@@ -394,7 +415,7 @@ function WeddingInvitation() {
         </Button>
       </section>
 
-      <section className="dress-code section-pad">
+      <section id="dress-code" className="dress-code section-pad">
         <div className="dress-heading"><span /><p>Dress Code</p><span /></div>
         <h2>A paleta</h2>
         <p className="dress-copy">Escolha uma das cores da nossa paleta e celebre este dia conosco.</p>
@@ -412,14 +433,15 @@ function WeddingInvitation() {
         </div>
       </section>
 
-      <section className="rsvp section-pad">
+      <section id="rsvp" className="rsvp section-pad">
         <SectionTitle eyebrow="R.S.V.P.">Confirme sua presença</SectionTitle>
         <p className="section-intro">Será uma alegria ter você conosco neste dia tão especial.</p>
         <RsvpSection />
 
       </section>
 
-      <section className="gifts section-pad">
+      <div className="section-divider" aria-hidden="true"><i /><b>◆</b><i /></div>
+      <section id="presentes" className="gifts section-pad">
         <Heart className="gift-heart" aria-hidden="true" />
         <SectionTitle>Seu carinho é o nosso<br />maior presente</SectionTitle>
         <p>A sua presença será o nosso maior presente. Para quem desejar nos presentear de outra forma, poderá fazê-lo através dos seguintes canais:</p>
