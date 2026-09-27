@@ -307,3 +307,43 @@ footer svg { width: 12px; color: var(--gold); }
 @media (min-width: 480px) {
   .pass-card { padding: 3.2rem 2.4rem 2.6rem; }
 }
+
+/* Refinamento visual e organização */
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 1rem; }
+.section-pad { padding: 4.25rem 1.5rem; }
+@media (min-width: 768px) { .section-pad { padding: 5.5rem 2.5rem; } }
+.hero-content > p { margin-bottom: 2.1rem; }
+.hero-content h1 { font-size: clamp(3.2rem, 12.5vw, 7.4rem); }
+.hero-line { margin: 1.6rem auto 1rem; }
+.hero-content time { font-size: 1.05rem; letter-spacing: .14em; text-transform: uppercase; }
+.scroll-mark { display: flex; flex-direction: column; align-items: center; gap: .5rem; width: auto; height: auto; background: none; color: var(--primary-foreground); text-decoration: none; opacity: .85; }
+.scroll-mark small { font-size: .55rem; letter-spacing: .32em; text-transform: uppercase; }
+.scroll-mark span { width: 1px; height: 34px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scroll-hint 2.4s ease-in-out infinite; transform-origin: top; }
+@keyframes scroll-hint { 0%,100% { transform: scaleY(.4); opacity: .5; } 50% { transform: scaleY(1); opacity: 1; } }
+.parents-list { gap: 1rem; font-size: 1.55rem; }
+.invitation { padding-bottom: 2.5rem; }
+.date-section { padding-top: 2rem; background: oklch(0.96 0.025 82); }
+.agenda-card { padding: 1.6rem 1.4rem; }
+.agenda-card h3 { margin: .8rem 0; font-size: 1.65rem; }
+.agenda-card > p:last-child { margin-top: .9rem; font-size: 1.08rem; }
+.location .gold-button { padding-inline: 2rem; box-shadow: 0 10px 24px -18px color-mix(in oklab, var(--chocolate) 70%, transparent); transition: transform .2s ease, box-shadow .2s ease; }
+.location .gold-button:active { transform: translateY(1px); }
+.swatch-purple, .swatch-magenta, .swatch-pink, .swatch-lightorange, .swatch-redorange, .swatch-orange, .swatch-green, .swatch-blue {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--cream) 80%, transparent), 0 8px 18px -8px color-mix(in oklab, var(--chocolate) 30%, transparent);
+}
+.rsvp h2 { font-size: clamp(2.6rem, 10vw, 4rem); }
+.rsvp .section-intro { margin-top: -1.5rem; margin-bottom: 1.75rem; }
+.rsvp-search input { border-color: color-mix(in oklab, var(--gold) 65%, transparent); background: var(--card); }
+.section-divider { display: flex; align-items: center; justify-content: center; gap: .9rem; padding: 2.25rem 0 0; color: var(--gold); font-size: .6rem; }
+.section-divider i { display: block; width: 64px; height: 1px; background: linear-gradient(to right, transparent, var(--gold)); }
+.section-divider i:last-child { transform: scaleX(-1); }
+.invite-nav { position: fixed; top: .9rem; right: .9rem; z-index: 50; }
+.invite-nav-toggle { display: grid; place-content: center; gap: 6px; width: 44px; height: 44px; border: 1px solid color-mix(in oklab, var(--gold) 55%, transparent); border-radius: 50%; background: color-mix(in oklab, var(--cream) 82%, transparent); backdrop-filter: blur(6px); cursor: pointer; }
+.invite-nav-toggle span { display: block; width: 16px; height: 1px; background: var(--chocolate); transition: transform .25s ease; }
+.is-open .invite-nav-toggle span:first-child { transform: translateY(3.5px) rotate(45deg); }
+.is-open .invite-nav-toggle span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+.invite-nav ul { position: absolute; top: 52px; right: 0; min-width: 210px; padding: .5rem; list-style: none; border: 1px solid color-mix(in oklab, var(--gold) 40%, transparent); background: color-mix(in oklab, var(--cream) 96%, transparent); box-shadow: 0 18px 40px -26px color-mix(in oklab, var(--chocolate) 60%, transparent); animation: rsvp-result-in .25s ease both; }
+.invite-nav a { display: block; padding: .75rem 1rem; color: var(--chocolate); font-size: .68rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; }
+.invite-nav a:hover { color: var(--gold); }
+@media (prefers-reduced-motion: reduce) { .scroll-mark span { animation: none; } html { scroll-behavior: auto; } }
