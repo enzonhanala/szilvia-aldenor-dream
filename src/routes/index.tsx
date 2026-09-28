@@ -417,8 +417,9 @@ function WeddingInvitation() {
 
       <section id="dress-code" className="dress-code section-pad">
         <div className="dress-heading"><span /><p>Dress Code</p><span /></div>
-        <h2>A paleta</h2>
+        <h2>Paleta de cores para as convidadas</h2>
         <p className="dress-copy">Escolha uma das cores da nossa paleta e celebre este dia conosco.</p>
+        <p className="dress-note">Esta paleta é uma referência de cores destinada exclusivamente às mulheres convidadas para o evento.</p>
         <div className="swatches">
           {[
             ["ROXO", "swatch-purple"], ["MAGENTA", "swatch-magenta"], ["ROSA-CHOQUE", "swatch-pink"],
