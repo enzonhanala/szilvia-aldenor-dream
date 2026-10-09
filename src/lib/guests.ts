@@ -118,7 +118,7 @@ export const GUESTS: Guest[] = [
   { name: "Paulino", code: "AC-103", table: "A definir" },
   { name: "Pablo Cunha", code: "AC-104", table: "A definir" },
   { name: "Emídio Zualo", code: "AC-105", table: "A definir" },
-  { name: "Santos Nhagole", code: "AC-106", table: "A definir" },
+  { name: "Santos Nhadole e Esposa", code: "AC-106", table: "A definir" },
 ];
 
 export const normalize = (value: string) =>
