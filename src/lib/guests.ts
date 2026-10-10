@@ -15,7 +15,7 @@ export const GUESTS: Guest[] = [
 
   { name: "Judite Artur", code: "AC-011", table: "Mesa 3 — Alexandrite" },
   { name: "Laura Tique", code: "AC-012", table: "Mesa 3 — Alexandrite" },
-  { name: "Tania", code: "AC-013", table: "Mesa 3 — Alexandrite" },
+  { name: "Amina", code: "AC-013", table: "Mesa 3 — Alexandrite" },
   { name: "Tucha Tique", code: "AC-014", table: "Mesa 3 — Alexandrite" },
   { name: "Ricardina Poco", code: "AC-015", table: "Mesa 3 — Alexandrite" },
   { name: "Joyce Mualeia & Hélia Nhabomba", code: "AC-016", table: "Mesa 3 — Alexandrite" },
