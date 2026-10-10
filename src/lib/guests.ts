@@ -93,7 +93,8 @@ export const GUESTS: Guest[] = [
   { name: "Onilda Massuanguanhe", code: "AC-079", table: "Mesa 12 — Jade" },
   { name: "Francisco Vaheque & Felix Anovo", code: "AC-080", table: "Mesa 12 — Jade" },
   { name: "Rui Massuanganhe & Lucia Novela", code: "AC-081", table: "Mesa 12 — Jade" },
-  { name: "Ernela Uamusse, Joao Matlombe e Esposa", code: "AC-082", table: "Mesa 12 — Jade" },
+  { name: "Joao Matlombe e Esposa", code: "AC-082", table: "Mesa 12 — Jade" },
+  { name: "Ernela Uamusse", code: "AC-110", table: "Mesa 12 — Jade" },
   { name: "Americo Muchanga e Esposa", code: "AC-083", table: "Mesa 12 — Jade" },
 
   { name: "Benamor Mascarenhas", code: "AC-084", table: "Mesa 13 — Opala" },
