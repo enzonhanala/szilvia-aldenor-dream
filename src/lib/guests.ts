@@ -59,7 +59,7 @@ export const GUESTS: Guest[] = [
   { name: "Isaura Doutor", code: "AC-049", table: "Mesa 8 — Água Marinha" },
   { name: "Sintia", code: "AC-050", table: "Mesa 8 — Água Marinha" },
   { name: "Azarias Huo", code: "AC-051", table: "Mesa 8 — Água Marinha" },
-  { name: "Maxweel e Esposa", code: "AC-052", table: "Mesa 8 — Água Marinha" },
+  { name: "Tereza & Chinha", code: "AC-052", table: "Mesa 8 — Água Marinha" },
 
   { name: "Guivina Quefasse", code: "AC-053", table: "Mesa 9 — Turmalina" },
   { name: "Almera Quefasse & Celso Benz", code: "AC-054", table: "Mesa 9 — Turmalina" },
@@ -91,8 +91,10 @@ export const GUESTS: Guest[] = [
   { name: "Adriel", code: "AC-078", table: "Mesa 11 — Zircão" },
 
   { name: "Onilda Massuanguanhe", code: "AC-079", table: "Mesa 12 — Jade" },
-  { name: "Francisco Vaheque & Felix Anovo", code: "AC-080", table: "Mesa 12 — Jade" },
-  { name: "Rui Massuanganhe & Lucia Novela", code: "AC-081", table: "Mesa 12 — Jade" },
+  { name: "Francisco Vaheque", code: "AC-080", table: "Mesa 12 — Jade" },
+  { name: "Felix Anovo", code: "AC-111", table: "Mesa 12 — Jade" },
+  { name: "Ana Cristina Massuanganhe", code: "AC-081", table: "Mesa 12 — Jade" },
+  { name: "Adalberto Santo", code: "AC-112", table: "Mesa 12 — Jade" },
   { name: "Joao Matlombe e Esposa", code: "AC-082", table: "Mesa 12 — Jade" },
   { name: "Ernela Uamusse", code: "AC-110", table: "Mesa 12 — Jade" },
   { name: "Americo Muchanga e Esposa", code: "AC-083", table: "Mesa 12 — Jade" },
